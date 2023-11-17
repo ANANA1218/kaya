@@ -4,22 +4,57 @@
 		<title>Détails du véhicule</title>
 		<!-- Inclure Bootstrap CSS -->
 		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			/* Style pour l'image arrondie */
+			.rounded-img {
+				border-radius: 10px;
+			}
+			/* Style pour l'emoji */
+			.emoji {
+				font-size: 0.2; /* Taille réduite */
+				margin-right: 5px;
+			}
+			/* Style pour le cadre du texte */
+			.text-frame {
+				border: 1px solid #ccc;
+				padding: 15px;
+				border-radius: 10px;
+			}
+		</style>
 	</head>
 	<body>
 
 		<div class="container">
-			<h1>Détails du véhicule</h1>
+			<h4>
+				<a href="{{ path('vehicules_list') }}">
+					<span class="emoji" style="font-size: 0.8em;">🔙</span>
+				</a>
+				Détails du véhicule
+			</h4>
 			{% if vehicule %}
-				<p>Marque:
-					{{ vehicule.marque }}</p>
-				<p>Modèle:
-					{{ vehicule.modele }}</p>
-				{% if vehicule.photo %}
-					<p>Photo:
-					</p>
-					<img src="{{ asset('upload/' ~ vehicule.photo) }}" alt="Photo du véhicule">
-				{% endif %}
-				<!-- Autres détails du véhicule -->
+				<div class="row">
+					{% if vehicule.photo %}
+						<div
+							class="col-md-6">
+							<!-- Colonne pour la photo redimensionnée -->
+							<img src="{{ asset('upload/' ~ vehicule.photo) }}" alt="Photo du véhicule" class="img-fluid rounded-img">
+						</div>
+					{% endif %}
+					<div
+						class="col-md-6">
+						<!-- Colonne pour les autres détails du véhicule -->
+						<div class="text-frame">
+							<p>Marque:
+								{{ vehicule.marque }}</p>
+							<p>Modèle:
+								{{ vehicule.modele }}</p>
+							<p>Description:
+								{{ vehicule.description }}</p>
+
+							<!-- Autres détails du véhicule -->
+						</div>
+					</div>
+				</div>
 			{% else %}
 				<p>Aucun véhicule trouvé.</p>
 			{% endif %}

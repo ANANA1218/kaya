@@ -1,28 +1,59 @@
-{# templates/vehicle/create.html.twig #}
-
 <!DOCTYPE html>
 <html>
 	<head>
 		<title>Ajouter un véhicule</title>
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			/* Centrer le formulaire */
+			.form-container {
+				margin-top: 50px;
+			}
+
+			/* Style pour les inputs */
+			input[type="text"],
+			textarea {
+				width: 100%;
+				padding: 10px;
+				margin-bottom: 10px;
+				border-radius: 5px;
+				border: 1px solid #ccc;
+			}
+
+			input[type="submit"] {
+				padding: 10px 20px;
+				border-radius: 5px;
+				border: none;
+				background-color: #007bff;
+				color: white;
+				cursor: pointer;
+			}
+		</style>
 	</head>
 	<body>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 form-container">
+					<h4>Ajouter un véhicule</h4>
 
-		<h1>Ajouter un véhicule</h1>
+					{{ form_start(form) }}
+					{{ form_row(form.titre) }}
+					{{ form_row(form.marque) }}
+					{{ form_row(form.modele) }}
+					{{ form_row(form.description) }}
+					{{ form_row(form.photo, {
+                    'attr': {
+                        'accept': 'image/*' 
+                    }
+                }) }}
 
-		{{ form_start(form) }}
-		{{ form_row(form.titre) }}
-		{{ form_row(form.marque) }}
-		{{ form_row(form.modele) }}
-		{{ form_row(form.description) }}
-		{{ form_row(form.photo, {
-    		'attr': {
-       				 'accept': 'image/*' 
-    				}
-		}) }}
+					{{ form_row(form.prixJournalier) }}
+					{{ form_row(form.save) }}
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</div>
 
-		{{ form_row(form.prixJournalier) }}
-		{{ form_row(form.save) }}
-		{{ form_end(form) }}
-
+		<!-- Inclure Bootstrap JS -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	</body>
 </html>
