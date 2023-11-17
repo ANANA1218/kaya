@@ -24,6 +24,7 @@ use Doctrine\DBAL\Types\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AdminController extends AbstractController
 {
@@ -151,20 +152,39 @@ public function updateVehicule(Request $request, EntityManagerInterface $entityM
 {
     // Création du formulaire pré-rempli avec les données du véhicule à mettre à jour
     $form = $this->createFormBuilder($vehicule)
-        ->add('titre', TextType::class)
-        ->add('marque', TextType::class)
-        ->add('modele', TextType::class)
-        ->add('description', TextareaType::class)
-        ->add('photo', TextType::class)
-        ->add('prixJournalier', NumberType::class)
-        ->add('save', SubmitType::class, ['label' => 'Modifier'])
-        ->getForm();
+    ->add('titre')
+    ->add('marque')
+    ->add('modele')
+    ->add('description')
+    ->add('photo', FileType::class, [
+        'mapped' => false, // Ceci est important pour accepter les fichiers
+        'required' => false, // Permet de ne pas rendre obligatoire le champ photo
+    ])
+    ->add('prixJournalier')
+    ->add('save', SubmitType::class, ['label' => 'Modifier'])
+    ->getForm();
 
     // Gérer la soumission du formulaire
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        // Enregistrement automatique des modifications dans la base de données via Doctrine
+        // Convertir la photo en un objet UploadedFile
+        $photoFile = $form->get('photo')->getData();
+
+        // Gérer la photo uniquement si elle est modifiée
+        if ($photoFile instanceof UploadedFile) {
+            // Enregistrer la nouvelle photo
+            $newFilename = md5(uniqid()) . '.' . $photoFile->guessExtension();
+            $photoFile->move(
+                $this->getParameter('upload_directory'),
+                $newFilename
+            );
+
+            // Mettre à jour l'entité Vehicule avec le nouveau nom de fichier
+            $vehicule->setPhoto($newFilename);
+        }
+
+        // Enregistrer les autres modifications dans la base de données
         $entityManager->flush();
 
         $this->addFlash('success', 'Véhicule mis à jour avec succès !');
@@ -178,7 +198,6 @@ public function updateVehicule(Request $request, EntityManagerInterface $entityM
         'form' => $form->createView(),
     ]);
 }
-
 
 
 /**

@@ -1,13 +1,21 @@
-{# templates/admin/vehicules_list.html.twig #}
+{# templates/admin/home.html.twig #}
 
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Liste des véhicules</title>
+		<title>Page d'accueil admin</title>
 		<!-- Inclure Bootstrap CSS ou tout autre CSS pour la mise en forme -->
 		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			/* CSS pour redimensionner les images */
+			.img-small {
+				max-width: 100px; /* Largeur maximale de l'image */
+				height: auto; /* Pour conserver les proportions originales */
+			}
+		</style>
 	</head>
 	<body>
+
 		<!-- Barre de navigation -->
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
 			<div class="container">
@@ -15,40 +23,68 @@
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
+
 			</div>
 		</nav>
 
-		<h1>Liste des véhicules</h1>
+		<!-- Contenu principal -->
+		<div class="container-fluid">
+			<div
+				class="row">
+				<!-- Colonne de filtres -->
+				<div class="col-md-3 mt-4">
+					<h4>Filtres</h4>
+					<!-- Ajoutez ici vos filtres pour les véhicules, commandes, utilisateurs -->
+					<!-- Par exemple, des liens vers les listes correspondantes -->
+					<ul class="list-group">
+						<li class="list-group-item">
+							<a href="{{ path('vehicules_list') }}">Filtrer par Véhicules</a>
+						</li>
+					</ul>
+				</div>
 
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Marque</th>
-					<th>Modèle</th>
-					<th>Description</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for vehicule in vehicules %}
-					<tr>
-						<td>{{ vehicule.marque }}</td>
-						<td>{{ vehicule.modele }}</td>
-						<td>{{ vehicule.description }}</td>
-						<td>
-							<a href="{{ path('show_vehicule', {id: vehicule.id}) }}" class="btn btn-info">Voir</a>
-							<a href="{{ path('update_vehicule', {id: vehicule.id}) }}" class="btn btn-warning">Modifier</a>
-							<a href="#" onclick="event.preventDefault(); if (confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) { document.getElementById('delete-form-{{ vehicule.id }}').submit(); }" class="btn btn-warning">Supprimer</a>
+				<!-- Contenu principal - Liste des véhicules, commandes, utilisateurs -->
+				<div
+					class="col-md-9 mt-4">
+					<!-- Le contenu principal sera rempli dynamiquement en fonction du filtre sélectionné -->
+					<h4>Liste des véhicules</h4>
+					<a href="{{ path('create_vehicule') }}" class="btn btn-primary">Ajouter un véhicule</a>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Photo</th>
+								<th>Marque</th>
+								<th>Modèle</th>
+								<th>Description</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for vehicule in vehicules %}
+								<tr>
+									{% if vehicule.photo %}
+										<td><img src="{{ asset('upload/' ~ vehicule.photo) }}" alt="Photo du véhicule" class="img-small"></td>
+									{% endif %}
+									<td>{{ vehicule.marque }}</td>
+									<td>{{ vehicule.modele }}</td>
+									<td>{{ vehicule.description }}</td>
+									<td>
+										<a href="{{ path('show_vehicule', {id: vehicule.id}) }}" class="btn btn-info">Voir</a>
+										<a href="{{ path('update_vehicule', {id: vehicule.id}) }}" class="btn btn-warning">Modifier</a>
+										<a href="#" onclick="event.preventDefault(); if (confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) { document.getElementById('delete-form-{{ vehicule.id }}').submit(); }" class="btn btn-danger">Supprimer</a>
 
-							<!-- Formulaire de suppression (caché) -->
-							<form id="delete-form-{{ vehicule.id }}" action="{{ path('delete_vehicule', {'id': vehicule.id}) }}" method="POST" style="display: none;">
-								<input type="hidden" name="_method" value="DELETE">
-								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ vehicule.id) }}">
-							</form>
-						</td>
-					</tr>
-				</form>
-			</tbody>
-		</td>
+										<!-- Formulaire de suppression (caché) -->
+										<form id="delete-form-{{ vehicule.id }}" action="{{ path('delete_vehicule', {'id': vehicule.id}) }}" method="POST" style="display: none;">
+											<input type="hidden" name="_method" value="DELETE">
+											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ vehicule.id) }}">
+										</form>
+									</td>
+								</tr>
+							</tr>
+						</tbody>
+					</form>
+				</body>
+			</html>
+		</tbody>
 	</body>
-</html></tr>{% endfor %}</tbody></table><!-- Ajout du bouton pour créer un nouveau véhicule --><a href="{{ path('create_vehicule') }}" class="btn btn-primary">Ajouter un véhicule</a></body></html>
+</html></td></body></html></tr>{% endfor %}</tbody></table></div></div> </div> <!-- Inclure Bootstrap JS --> <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script></body></html>
