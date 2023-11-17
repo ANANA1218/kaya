@@ -4,19 +4,52 @@
 <html>
 	<head>
 		<title>Ajouter un User</title>
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			/* Centrer le formulaire */
+			.form-container {
+				margin-top: 50px;
+			}
+
+			/* Style pour les inputs */
+			input[type="text"],
+			textarea {
+				width: 100%;
+				padding: 10px;
+				margin-bottom: 10px;
+				border-radius: 5px;
+				border: 1px solid #ccc;
+			}
+
+			input[type="submit"] {
+				padding: 10px 20px;
+				border-radius: 5px;
+				border: none;
+				background-color: #007bff;
+				color: white;
+				cursor: pointer;
+			}
+		</style>
 	</head>
 	<body>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 form-container">
+					<h4>Ajouter un User</h4>
 
-		<h1>Ajouter un User</h1>
-
-		{{ form_start(form) }}
-		{{ form_row(form.pseudo) }}
-		{{ form_row(form.password) }}
-		{{ form_row(form.nom) }}
-		{{ form_row(form.prenom) }}
-		{{ form_row(form.email) }}
-		{{ form_row(form.civilite) }}
-		{{ form_end(form) }}
-
+					{{ form_start(form) }}
+					{{ form_row(form.pseudo) }}
+					{{ form_row(form.password) }}
+					{{ form_row(form.nom) }}
+					{{ form_row(form.prenom) }}
+					{{ form_row(form.email) }}
+					{{ form_label(form.civilite, 'Civilité') }}
+					{{ form_widget(form.civilite, {'attr': {'class': 'form-control'}}) }}
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</div>
+		<!-- Inclure Bootstrap JS -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	</body>
 </html>

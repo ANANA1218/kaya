@@ -31,7 +31,7 @@ show_vehicule:
 
 
 create_vehicule:
-    path: '/admin/vehicule/create'
+    path: '/vehicule/create'
     controller: 'App\Controller\AdminController::createVehicule'
     # ...
 
@@ -77,4 +77,37 @@ update_users:
 delete_users:
     path: '/admin/user/{id}/delete'
     controller: 'App\Controller\AdminController::deleteUser'
+
+
+show_users:
+    path: '/user/{id}'
+    controller: 'App\Controller\AdminController::showUser'
+
+
+## commande
+
+show_commande:
+    path: '/commande/{id}'
+    controller: 'App\Controller\AdminController::showCommmande'
+
+
+orders_list:
+    path: '/admin/orders'
+    controller: 'App\Controller\AdminController::ordersList'
+    # ...
+
+create_commande:
+    path: '/admin/commande/create'
+    controller: 'App\Controller\AdminController::createCommande'
+    # ...
+
+
+update_commande:
+    path: '/admin/commande/{id}/update'
+    controller: 'App\Controller\AdminController::updateCommande'
+    # ...
+
+delete_commande:
+    path: '/admin/commande/{id}/delete'
+    controller: 'App\Controller\AdminController::deleteCommande'
    
