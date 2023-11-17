@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Liste des utilisateurs</title>
+		<!-- Inclure Bootstrap CSS ou tout autre CSS pour la mise en forme -->
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<!-- Barre de navigation -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container">
+				<a class="navbar-brand" href="{{ path('homeAdmin') }}">Admin Panel</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</nav>
+
+		<!-- Contenu principal -->
+		<div class="container-fluid">
+			<div
+				class="row">
+				<!-- Colonne de filtres -->
+				<div class="col-md-3 mt-4">
+					<h4>Filtres</h4>
+					<!-- Ajoutez ici vos filtres pour les véhicules, commandes, utilisateurs -->
+					<!-- Par exemple, des liens vers les listes correspondantes -->
+					<ul class="list-group">
+						<li class="list-group-item">
+							<a href="{{ path('vehicules_list') }}">Filtrer par Véhicules</a>
+						</li>
+					</ul>
+				</div>
+
+				<!-- Contenu principal - Liste des utilisateurs -->
+				<div class="col-md-9 mt-4">
+					<h4>Liste des utilisateurs</h4>
+					<a href="{{ path('create_users') }}" class="btn btn-primary">Ajouter un utilisateur</a>
+					<table class="table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Nom</th>
+								<th>Email</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for user in users %}
+								<tr>
+									<td>{{ user.id }}</td>
+									<td>{{ user.nom }}</td>
+									<td>{{ user.email }}</td>
+									<td>
+										<!-- Actions pour les utilisateurs -->
+										<a href="{{ path('show_users', {id: user.id}) }}" class="btn btn-info">Voir</a>
+										<a href="{{ path('update_users', {id: user.id}) }}" class="btn btn-warning">Modifier</a>
+										<a href="#" onclick="event.preventDefault(); if (confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) { document.getElementById('delete-form-{{ user.id }}').submit(); }" class="btn btn-danger">Supprimer</a>
+
+										<!-- Formulaire de suppression (caché) -->
+										<form id="delete-form-{{ user.id }}" action="{{ path('delete_users', {'id': user.id}) }}" method="POST" style="display: none;">
+											<input type="hidden" name="_method" value="DELETE">
+											<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+										</form>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+
+					<!-- Ajout du bouton pour créer un nouvel utilisateur -->
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Inclure Bootstrap JS -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	</body>
+</html>

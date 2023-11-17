@@ -54,3 +54,31 @@ homeAdmin: ## nom de la route
 user_details:
     path: /admin/user-details ## url 
     controller: App\Controller\ProfileAdminController::userDetails
+
+
+
+## members
+
+users_list:
+    path: '/admin/users'
+    controller: 'App\Controller\AdminController::usersList'
+    # ...
+
+show_users:
+    path: '/admin/user/{id}'
+    controller: 'App\Controller\AdminController::showUser'
+
+create_users:
+    path: '/admin/user/create'
+    controller: 'App\Controller\AdminController::createUser'
+    # ...
+
+update_users:
+    path: '/admin/user/{id}/update'
+    controller: 'App\Controller\AdminController::updateUser'
+    # ...
+
+delete_users:
+    path: '/admin/user/{id}/delete'
+    controller: 'App\Controller\AdminController::deleteUser'
+   
