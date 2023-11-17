@@ -76,7 +76,7 @@ class AdminController extends AbstractController
 
 
 /**
-     * @Route("/vehicule/{id}", name="show_vehicule")
+     * @Route("/admin/vehicule/{id}", name="show_vehicule")
      */
     public function showVehiculeByID($id): Response
     {

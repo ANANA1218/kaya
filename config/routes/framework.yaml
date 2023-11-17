@@ -26,7 +26,7 @@ vehicules_list:
     controller: 'App\Controller\AdminController::vehiculesList'
     # ...
 show_vehicule:
-    path: '/vehicule/{id}'
+    path: '/admin/vehicule/{id}'
     controller: 'App\Controller\AdminController::showVehiculeByID'
 
 
@@ -52,5 +52,5 @@ homeAdmin: ## nom de la route
     controller: App\Controller\AdminController::adminHome
 
 user_details:
-    path: /user-details ## url 
+    path: /admin/user-details ## url 
     controller: App\Controller\ProfileAdminController::userDetails

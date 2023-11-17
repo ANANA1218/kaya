@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProfileAdminController extends AbstractController
 {
-    #[Route('/user-details', name: 'user_details')]
+    #[Route('/admin/user-details', name: 'user_details')]
     public function userDetails(): Response
     {
         // Récupérer l'utilisateur actuellement connecté
