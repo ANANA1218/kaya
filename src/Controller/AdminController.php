@@ -11,7 +11,8 @@ use App\Entity\Vehicule;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CommandeRepository; // Assurez-vous d'avoir importé le Repository adéquat
 use App\Entity\Commande;
-
+use App\Entity\User;
+use App\Repository\UserRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -29,21 +30,19 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class AdminController extends AbstractController
 {
-
     private $vehiculeRepository;
-
-    private $membreRepository;
+    private $userRepository;
     private $commandeRepository;
 
-
-
-    public function __construct(VehiculeRepository $vehiculeRepository, CommandeRepository $commandeRepository)
-    {
+    public function __construct(
+        VehiculeRepository $vehiculeRepository,
+        UserRepository $userRepository,
+        CommandeRepository $commandeRepository
+    ) {
         $this->vehiculeRepository = $vehiculeRepository;
-       
+        $this->userRepository = $userRepository;
         $this->commandeRepository = $commandeRepository;
     }
-
 
     /**
      * @Route("/admin", name="admin_home")
@@ -221,6 +220,149 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
     return $this->redirectToRoute('vehicules_list');
 }
 
+
+
+
+//user 
+
+
+
+//ajouter un create , un delete, update , un viewByID
+
+  /**
+     * @Route("/admin/users", name="users_list")
+     */
+    public function usersList(): Response
+    {
+        $users = $this->userRepository->findAll();
+
+        return $this->render('admin/users_list.html.twig', [
+            'users' => $users,
+        ]);
+    }
+
+
+    /**
+     * @Route("/user/{id}", name="show_users")
+     */
+    public function showUser($id): Response
+    {
+        $user = $this->userRepository->find($id);
+
+        return $this->render('admin/users_by_id.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+
+    
+ /**
+     * @Route("/admin/user/create", name="create_users")
+     */
+    public function createUser(Request $request, EntityManagerInterface $entityManager): Response
+{
+    // Création d'une nouvelle instance de Vehicule
+    $user = new User();
+
+    // Création du formulaire
+    $form = $this->createFormBuilder($user)
+        ->add('pseudo', TextType::class)
+        ->add('mdp', TextType::class)
+        ->add('nom', TextType::class)
+        ->add('prenom', TextareaType::class)
+        ->add('email', TextType::class)
+        ->add('civilite', ChoiceType::class, [
+            'choices' => [
+                'M.' => 'Monsieur',
+                'Mme' => 'Madame',
+            ],
+        ])
+        ->add('status', IntegerType::class)
+        ->add('save', SubmitType::class, ['label' => 'Ajouter'])
+        ->getForm();
+
+    // Gérer la soumission du formulaire
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Récupération des données du formulaire
+        $user = $form->getData();
+
+        // Enregistrement du véhicule dans la base de données
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        $this->addFlash('success', '$user ajouté avec succès !');
+
+        // Redirection vers une autre page après l'ajout
+        return $this->redirectToRoute('users_list');
+    }
+
+    // Rendre la vue du formulaire
+    return $this->render('admin/Form/user/create.html.twig', [
+        'form' => $form->createView(),
+    ]);
+}
+
+
+// Modifier la route pour l'action update
+/**
+ * @Route("/admin/user/{id}/update", name="update_users")
+ */
+public function updateUser(Request $request, EntityManagerInterface $entityManager, User $user): Response
+{
+    // Création du formulaire pré-rempli avec les données du véhicule à mettre à jour
+        $form = $this->createFormBuilder($user)
+        ->add('pseudo', TextType::class)
+        ->add('mdp', TextType::class)
+        ->add('nom', TextType::class)
+        ->add('prenom', TextareaType::class)
+        ->add('email', TextType::class)
+        ->add('civilite', ChoiceType::class, [
+            'choices' => [
+                'M.' => 'Monsieur',
+                'Mme' => 'Madame',
+            ],
+        ])
+        ->add('status', IntegerType::class)
+        ->add('save', SubmitType::class, ['label' => 'Modifier'])
+        ->getForm();
+
+    // Gérer la soumission du formulaire
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Enregistrement automatique des modifications dans la base de données via Doctrine
+        $entityManager->flush();
+
+        $this->addFlash('success', '$user mis à jour avec succès !');
+
+        // Redirection vers une autre page après la mise à jour
+        return $this->redirectToRoute('users_list');
+    }
+
+    // Rendre la vue du formulaire
+    return $this->render('admin/Form/user/update.html.twig', [
+        'form' => $form->createView(),
+    ]);
+}
+
+
+
+
+
+/**
+ * @Route("/admin/user/{id}/delete", name="delete_users")
+ */
+public function deleteUser(Request $request, EntityManagerInterface $entityManager, User $user): Response
+{
+    $entityManager->remove($user);
+    $entityManager->flush();
+
+    $this->addFlash('success', '$user supprimé avec succès !');
+
+    return $this->redirectToRoute('users_list');
+}
 
 
 
