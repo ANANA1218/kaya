@@ -240,25 +240,9 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
             'users' => $users,
         ]);
     }
-
-
-    /**
-     * @Route("/user/{id}", name="show_users")
-     */
-    public function showUser($id): Response
-    {
-        $user = $this->userRepository->find($id);
-
-        return $this->render('admin/users_by_id.html.twig', [
-            'user' => $user,
-        ]);
-    }
-
-
-    
- /**
-     * @Route("/admin/user/create", name="create_users")
-     */
+   
+   
+     #[Route('/admin/user/create', name: 'create_users')]
     public function createUser(Request $request, EntityManagerInterface $entityManager): Response
 {
     // Création d'une nouvelle instance de Vehicule
@@ -267,17 +251,17 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
     // Création du formulaire
     $form = $this->createFormBuilder($user)
         ->add('pseudo', TextType::class)
-        ->add('mdp', TextType::class)
+        ->add('password', TextType::class)
         ->add('nom', TextType::class)
         ->add('prenom', TextareaType::class)
         ->add('email', TextType::class)
         ->add('civilite', ChoiceType::class, [
             'choices' => [
-                'M.' => 'Monsieur',
-                'Mme' => 'Madame',
+                'M.' => 'Homme',
+                'Mme' => 'Femme',
             ],
         ])
-        ->add('status', IntegerType::class)
+        
         ->add('save', SubmitType::class, ['label' => 'Ajouter'])
         ->getForm();
 
@@ -287,7 +271,7 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
     if ($form->isSubmitted() && $form->isValid()) {
         // Récupération des données du formulaire
         $user = $form->getData();
-
+        $user->setRoles(['ROLE_USER']);
         // Enregistrement du véhicule dans la base de données
         $entityManager->persist($user);
         $entityManager->flush();
@@ -305,7 +289,6 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
 }
 
 
-// Modifier la route pour l'action update
 /**
  * @Route("/admin/user/{id}/update", name="update_users")
  */
@@ -314,17 +297,17 @@ public function updateUser(Request $request, EntityManagerInterface $entityManag
     // Création du formulaire pré-rempli avec les données du véhicule à mettre à jour
         $form = $this->createFormBuilder($user)
         ->add('pseudo', TextType::class)
-        ->add('mdp', TextType::class)
+        ->add('password', TextType::class)
         ->add('nom', TextType::class)
         ->add('prenom', TextareaType::class)
         ->add('email', TextType::class)
         ->add('civilite', ChoiceType::class, [
             'choices' => [
-                'M.' => 'Monsieur',
-                'Mme' => 'Madame',
+                'M.' => 'Homme',
+                'Mme' => 'Femme',
             ],
         ])
-        ->add('status', IntegerType::class)
+        
         ->add('save', SubmitType::class, ['label' => 'Modifier'])
         ->getForm();
 
@@ -335,8 +318,8 @@ public function updateUser(Request $request, EntityManagerInterface $entityManag
         // Enregistrement automatique des modifications dans la base de données via Doctrine
         $entityManager->flush();
 
-        $this->addFlash('success', '$user mis à jour avec succès !');
-
+        $this->addFlash('success', 'Membre mis à jour avec succès !');
+        $user->setRoles(['ROLE_USER']);
         // Redirection vers une autre page après la mise à jour
         return $this->redirectToRoute('users_list');
     }
@@ -348,9 +331,6 @@ public function updateUser(Request $request, EntityManagerInterface $entityManag
 }
 
 
-
-
-
 /**
  * @Route("/admin/user/{id}/delete", name="delete_users")
  */
@@ -359,15 +339,10 @@ public function deleteUser(Request $request, EntityManagerInterface $entityManag
     $entityManager->remove($user);
     $entityManager->flush();
 
-    $this->addFlash('success', '$user supprimé avec succès !');
+    $this->addFlash('success', 'Membre supprimé avec succès !');
 
     return $this->redirectToRoute('users_list');
 }
-
-
-
-
-
 
 
 }

@@ -64,10 +64,6 @@ users_list:
     controller: 'App\Controller\AdminController::usersList'
     # ...
 
-show_users:
-    path: '/admin/user/{id}'
-    controller: 'App\Controller\AdminController::showUser'
-
 create_users:
     path: '/admin/user/create'
     controller: 'App\Controller\AdminController::createUser'
