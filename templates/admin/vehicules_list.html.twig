@@ -60,7 +60,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{% for vehicule in vehicules %}
+							{% for vehicule in pagination %}
 								<tr>
 									{% if vehicule.photo %}
 										<td><img src="{{ asset('upload/' ~ vehicule.photo) }}" alt="Photo du véhicule" class="img-small"></td>
@@ -87,4 +87,4 @@
 			</html>
 		</tbody>
 	</body>
-</html></td></body></html></tr>{% endfor %}</tbody></table></div></div> </div> <!-- Inclure Bootstrap JS --> <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script></body></html>
+</html></td></body></html></tr>{% endfor %}</tbody></table><!-- Affichage de la pagination --><div class="pagination justify-content-center">{{ knp_pagination_render(pagination) }}</div></div></div> </div> <!-- Inclure Bootstrap JS --> <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script></body></html>

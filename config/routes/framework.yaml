@@ -51,3 +51,6 @@ homeAdmin: ## nom de la route
     path: /admin ## url 
     controller: App\Controller\AdminController::adminHome
 
+user_details:
+    path: /user-details ## url 
+    controller: App\Controller\ProfileAdminController::userDetails

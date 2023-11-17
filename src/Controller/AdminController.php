@@ -25,6 +25,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Knp\Component\Pager\PaginatorInterface;
 
 class AdminController extends AbstractController
 {
@@ -57,14 +58,21 @@ class AdminController extends AbstractController
  /**
      * @Route("/admin/vehicules", name="vehicules_list")
      */
-    public function vehiculesList(): Response
+    public function vehiculesList(Request $request, PaginatorInterface $paginator): Response
     {
-        $vehicules = $this->vehiculeRepository->findAll();
-
+        $queryBuilder = $this->vehiculeRepository->createQueryBuilder('v');
+        $pagination = $paginator->paginate(
+            $queryBuilder->getQuery(), // Requête pour sélectionner les véhicules
+            $request->query->getInt('page', 1), // Paramètre de la page en cours
+            10 // Nombre d'éléments par page
+        );
+    
         return $this->render('admin/vehicules_list.html.twig', [
-            'vehicules' => $vehicules,
+            'pagination' => $pagination,
         ]);
     }
+
+
 
 
 /**
