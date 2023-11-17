@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Détails de la commande</title>
+		<!-- Inclure Bootstrap CSS -->
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+
+		<div class="container">
+			<h1>Détails de la commande</h1>
+			{% if commande %}
+				<p>ID de la commande:
+					{{ commande.id }}</p>
+				<p>Date et heure de départ:
+					{{ commande.dateHeureDepart|date('Y-m-d H:i:s') }}</p>
+				<p>Date et heure de fin:
+					{{ commande.dateHeureFin|date('Y-m-d H:i:s') }}</p>
+				<!-- Autres détails de la commande -->
+			{% else %}
+				<p>Aucune commande trouvée.</p>
+			{% endif %}
+		</div>
+
+		<!-- Inclure Bootstrap JS -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	</body>
+</html>

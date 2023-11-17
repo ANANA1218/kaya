@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Ajouter une commande
+		</title>
+	</head>
+	<body>
+
+		<h1>Ajouter une commande
+		</h1>
+
+		{{ form_start(form) }}
+		{{ form_row(form.user) }}
+		{{ form_row(form.vehicule) }}
+		{{ form_row(form.date_heure_depart) }}
+		{{ form_row(form.date_heure_fin) }}
+		{{ form_row(form.prix_total) }}
+
+		{{ form_end(form) }}
+
+	</body>
+</html>

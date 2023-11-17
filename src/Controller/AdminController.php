@@ -109,7 +109,7 @@ class AdminController extends AbstractController
 
 
  /**
-     * @Route("/admin/vehicule/create", name="create_vehicule")
+     * @Route("/vehicules/create", name="create_vehicule")
      */
     public function createVehicule(Request $request, EntityManagerInterface $entityManager): Response
 {
@@ -240,6 +240,8 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
             'users' => $users,
         ]);
     }
+   
+
 
 
     /**
@@ -255,10 +257,8 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
     }
 
 
-    
- /**
-     * @Route("/admin/user/create", name="create_users")
-     */
+
+     #[Route('/admin/user/create', name: 'create_users')]
     public function createUser(Request $request, EntityManagerInterface $entityManager): Response
 {
     // Création d'une nouvelle instance de Vehicule
@@ -267,17 +267,17 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
     // Création du formulaire
     $form = $this->createFormBuilder($user)
         ->add('pseudo', TextType::class)
-        ->add('mdp', TextType::class)
+        ->add('password', TextType::class)
         ->add('nom', TextType::class)
-        ->add('prenom', TextareaType::class)
+        ->add('prenom', TextType::class)
         ->add('email', TextType::class)
         ->add('civilite', ChoiceType::class, [
             'choices' => [
-                'M.' => 'Monsieur',
-                'Mme' => 'Madame',
+                'M.' => 'Homme',
+                'Mme' => 'Femme',
             ],
         ])
-        ->add('status', IntegerType::class)
+        
         ->add('save', SubmitType::class, ['label' => 'Ajouter'])
         ->getForm();
 
@@ -287,7 +287,7 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
     if ($form->isSubmitted() && $form->isValid()) {
         // Récupération des données du formulaire
         $user = $form->getData();
-
+        $user->setRoles(['ROLE_USER']);
         // Enregistrement du véhicule dans la base de données
         $entityManager->persist($user);
         $entityManager->flush();
@@ -305,7 +305,6 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
 }
 
 
-// Modifier la route pour l'action update
 /**
  * @Route("/admin/user/{id}/update", name="update_users")
  */
@@ -314,17 +313,17 @@ public function updateUser(Request $request, EntityManagerInterface $entityManag
     // Création du formulaire pré-rempli avec les données du véhicule à mettre à jour
         $form = $this->createFormBuilder($user)
         ->add('pseudo', TextType::class)
-        ->add('mdp', TextType::class)
+        ->add('password', TextType::class)
         ->add('nom', TextType::class)
-        ->add('prenom', TextareaType::class)
+        ->add('prenom', TextType::class)
         ->add('email', TextType::class)
         ->add('civilite', ChoiceType::class, [
             'choices' => [
-                'M.' => 'Monsieur',
-                'Mme' => 'Madame',
+                'M.' => 'Homme',
+                'Mme' => 'Femme',
             ],
         ])
-        ->add('status', IntegerType::class)
+        
         ->add('save', SubmitType::class, ['label' => 'Modifier'])
         ->getForm();
 
@@ -335,8 +334,8 @@ public function updateUser(Request $request, EntityManagerInterface $entityManag
         // Enregistrement automatique des modifications dans la base de données via Doctrine
         $entityManager->flush();
 
-        $this->addFlash('success', '$user mis à jour avec succès !');
-
+        $this->addFlash('success', 'Membre mis à jour avec succès !');
+        $user->setRoles(['ROLE_USER']);
         // Redirection vers une autre page après la mise à jour
         return $this->redirectToRoute('users_list');
     }
@@ -348,9 +347,6 @@ public function updateUser(Request $request, EntityManagerInterface $entityManag
 }
 
 
-
-
-
 /**
  * @Route("/admin/user/{id}/delete", name="delete_users")
  */
@@ -359,11 +355,190 @@ public function deleteUser(Request $request, EntityManagerInterface $entityManag
     $entityManager->remove($user);
     $entityManager->flush();
 
-    $this->addFlash('success', '$user supprimé avec succès !');
+    $this->addFlash('success', 'Membre supprimé avec succès !');
 
     return $this->redirectToRoute('users_list');
 }
 
+
+
+
+
+//ajouter  un delete, update , un viewByID
+
+ /**
+     * @Route("/admin/orders", name="orders_list")
+     */
+    public function ordersList(Request $request, PaginatorInterface $paginator): Response
+    {
+       
+        $queryBuilder = $this->commandeRepository->createQueryBuilder('v');
+        $pagination = $paginator->paginate(
+            $queryBuilder->getQuery(), // Requête pour sélectionner les véhicules
+            $request->query->getInt('page', 1), // Paramètre de la page en cours
+            10 // Nombre d'éléments par page
+        );
+    
+        return $this->render('admin/orders_list.html.twig', [
+            'pagination' => $pagination,
+        ]);
+       
+    }
+  
+    /**
+     * @Route("/commande/{id}", name="show_commande")
+     */
+    public function showCommmande($id): Response
+    {
+        $commande = $this->commandeRepository->find($id);
+
+        return $this->render('admin/orders_by_id.html.twig', [
+            'commande' => $commande,
+        ]);
+    }
+
+
+
+
+
+
+
+    /**
+     * @Route("/admin/commande/create", name="create_commande")
+     */
+
+    public function createCommande(Request $request, EntityManagerInterface $entityManager): Response
+    {
+
+        $userRepository = $entityManager->getRepository(User::class);
+        $listeMembres = $userRepository->findAll(); 
+
+
+        $vehiculesRepository = $entityManager->getRepository(Vehicule::class);
+        $listeIdVehicules = $vehiculesRepository->findAll(); 
+
+        // Création d'une nouvelle instance de Commande
+        $commande = new Commande();
+    
+        // Création du formulaire pour créer une nouvelle commande
+        $form = $this->createFormBuilder($commande)
+        ->add('user', ChoiceType::class, [
+            'choices' => $listeMembres,
+            'choice_label' => function ($user) {
+                return $user->getId(); 
+            },
+            'label' => 'ID user'
+        ])
+
+        ->add('vehicule', ChoiceType::class, [
+            'choices' => $listeIdVehicules,
+            'choice_label' => function ($vehicule) {
+                return $vehicule->getId(); 
+            },
+            'label' => 'ID vehicule'
+        ])
+            ->add('date_heure_depart', DateTimeType::class)
+            ->add('date_heure_fin', DateTimeType::class)
+            ->add('prix_total', TextType::class)
+            ->add('save', SubmitType::class, ['label' => 'Créer'])
+            ->getForm();
+    
+        // Gérer la soumission du formulaire
+        $form->handleRequest($request);
+    
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Enregistrement automatique de la nouvelle commande dans la base de données via Doctrine
+            $entityManager->persist($commande);
+            $entityManager->flush();
+    
+            $this->addFlash('success', 'Nouvelle commande créée avec succès !');
+    
+            // Redirection vers une autre page après la création
+            return $this->redirectToRoute('orders_list');
+        }
+    
+        // Rendre la vue du formulaire de création
+        return $this->render('admin/Form/order/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    
+
+    
+// Modifier la route pour l'action update
+/**
+ * @Route("/admin/commande/{id}/update", name="update_commande")
+ 
+*/
+public function updateCommande(Request $request, EntityManagerInterface $entityManager, Commande $commande): Response
+{
+
+
+       $userRepository = $entityManager->getRepository(User::class);
+        $listeMembres = $userRepository->findAll(); 
+
+
+        $vehiculesRepository = $entityManager->getRepository(Vehicule::class);
+        $listeIdVehicules = $vehiculesRepository->findAll(); 
+
+
+    // Création du formulaire pré-rempli avec les données du véhicule à mettre à jour
+    $form = $this->createFormBuilder($commande)
+    ->add('user', ChoiceType::class, [
+        'choices' => $listeMembres,
+        'choice_label' => function ($user) {
+            return $user->getId(); 
+        },
+        'label' => 'ID user'
+    ])
+
+    ->add('vehicule', ChoiceType::class, [
+        'choices' => $listeIdVehicules,
+        'choice_label' => function ($vehicule) {
+            return $vehicule->getId(); 
+        },
+        'label' => 'ID vehicule'
+    ])
+        ->add('date_heure_depart', DateTimeType::class)
+        ->add('date_heure_fin', DateTimeType::class)
+        ->add('prix_total', TextType::class)
+        ->add('save', SubmitType::class, ['label' => 'Modifier'])
+        ->getForm();
+
+    // Gérer la soumission du formulaire
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Enregistrement automatique des modifications dans la base de données via Doctrine
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Commande mis à jour avec succès !');
+
+        // Redirection vers une autre page après la mise à jour
+        return $this->redirectToRoute('orders_list');
+    }
+
+    // Rendre la vue du formulaire
+    return $this->render('admin/Form/order/update.html.twig', [
+        'form' => $form->createView(),
+    ]);
+}
+
+
+
+
+/**
+ * @Route("/admin/commande/{id}/delete", name="delete_commande")
+ */
+public function deleteCommande(Request $request, EntityManagerInterface $entityManager, Commande $commande): Response
+{
+    $entityManager->remove($commande);
+    $entityManager->flush();
+
+    $this->addFlash('success', 'Commande supprimé avec succès !');
+
+    return $this->redirectToRoute('orders_list');
+}
 
 
 

@@ -67,8 +67,10 @@
 								</div>
 							</div>
 							<div class="border-top pt-3">
-								<p>ID:
-									{{ user.id }}</p>
+								{% if user %}
+									<p>ID:
+										{{ user.id }}</p>
+								{% endif %}
 								<!-- Ajoutez d'autres informations de l'utilisateur ici -->
 							</div>
 						</div>
@@ -79,4 +81,4 @@
 
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	</body>
-</html>
+</html></body></html>
