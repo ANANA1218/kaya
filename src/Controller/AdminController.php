@@ -23,6 +23,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Doctrine\DBAL\Types\BooleanType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class AdminController extends AbstractController
 {
@@ -79,6 +80,26 @@ class AdminController extends AbstractController
 
 
 
+
+    private function moveAndUpdateImage($request , $vehicule) :void{
+        // récupérer l'image 
+        $file = $request->files->get("form")["photo"] ?? null;
+
+        if ($file !== null) {
+            // déplacer dans le dossier upload
+            // le dossier où stocker l'image 
+            $uploadDirectory = $this->getParameter("upload_directory");
+            $nomFichier = md5(uniqid()) . "." . $file->guessExtension();
+            
+            $file->move($uploadDirectory, $nomFichier);
+            
+            // enregistrer en base de données 
+            // url relatif de l'image 
+            $vehicule->setPhoto($nomFichier);
+        }
+    }
+
+
  /**
      * @Route("/admin/vehicule/create", name="create_vehicule")
      */
@@ -93,7 +114,7 @@ class AdminController extends AbstractController
         ->add('marque', TextType::class)
         ->add('modele', TextType::class)
         ->add('description', TextareaType::class)
-        ->add('photo', TextType::class)
+        ->add('photo', FileType::class)
         ->add('prixJournalier', NumberType::class)
         ->add('save', SubmitType::class, ['label' => 'Ajouter'])
         ->getForm();
@@ -104,7 +125,7 @@ class AdminController extends AbstractController
     if ($form->isSubmitted() && $form->isValid()) {
         // Récupération des données du formulaire
         $vehicule = $form->getData();
-
+        $this->moveAndUpdateImage($request , $vehicule);
         // Enregistrement du véhicule dans la base de données
         $entityManager->persist($vehicule);
         $entityManager->flush();

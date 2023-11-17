@@ -14,7 +14,12 @@
 		{{ form_row(form.marque) }}
 		{{ form_row(form.modele) }}
 		{{ form_row(form.description) }}
-		{{ form_row(form.photo) }}
+		{{ form_row(form.photo, {
+    		'attr': {
+       				 'accept': 'image/*' 
+    				}
+		}) }}
+
 		{{ form_row(form.prixJournalier) }}
 		{{ form_row(form.save) }}
 		{{ form_end(form) }}

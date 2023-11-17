@@ -1,5 +1,3 @@
-{# templates/vehicule/show.html.twig #}
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -16,8 +14,11 @@
 					{{ vehicule.marque }}</p>
 				<p>Modèle:
 					{{ vehicule.modele }}</p>
-				<p>Photo:
-					{{ vehicule.photo }}</p>
+				{% if vehicule.photo %}
+					<p>Photo:
+					</p>
+					<img src="{{ asset('upload/' ~ vehicule.photo) }}" alt="Photo du véhicule">
+				{% endif %}
 				<!-- Autres détails du véhicule -->
 			{% else %}
 				<p>Aucun véhicule trouvé.</p>
