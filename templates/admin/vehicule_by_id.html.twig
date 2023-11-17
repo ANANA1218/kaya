@@ -1,0 +1,30 @@
+{# templates/vehicule/show.html.twig #}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Détails du véhicule</title>
+		<!-- Inclure Bootstrap CSS -->
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+
+		<div class="container">
+			<h1>Détails du véhicule</h1>
+			{% if vehicule %}
+				<p>Marque:
+					{{ vehicule.marque }}</p>
+				<p>Modèle:
+					{{ vehicule.modele }}</p>
+				<p>Photo:
+					{{ vehicule.photo }}</p>
+				<!-- Autres détails du véhicule -->
+			{% else %}
+				<p>Aucun véhicule trouvé.</p>
+			{% endif %}
+		</div>
+
+		<!-- Inclure Bootstrap JS -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	</body>
+</html>

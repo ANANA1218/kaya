@@ -1,0 +1,53 @@
+{# templates/admin/home.html.twig #}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Page d'accueil admin</title>
+		<!-- Inclure Bootstrap CSS ou tout autre CSS pour la mise en forme -->
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+
+		<!-- Barre de navigation -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container">
+				<a class="navbar-brand" href="{{ path('homeAdmin') }}">Admin Panel</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+			</div>
+		</nav>
+
+		<!-- Contenu principal -->
+		<div class="container-fluid">
+			<div
+				class="row">
+				<!-- Colonne de filtres -->
+				<div class="col-md-3 mt-4">
+					<h4>Filtres</h4>
+					<!-- Ajoutez ici vos filtres pour les véhicules, commandes, utilisateurs -->
+					<!-- Par exemple, des liens vers les listes correspondantes -->
+					<ul class="list-group">
+						<li class="list-group-item">
+							<a href="{{ path('vehicules_list') }}">Filtrer par Véhicules</a>
+						</li>
+					</ul>
+				</div>
+
+				<!-- Contenu principal - Liste des véhicules, commandes, utilisateurs -->
+				<div
+					class="col-md-9 mt-4">
+					<!-- Le contenu principal sera rempli dynamiquement en fonction du filtre sélectionné -->
+					<h4>Contenu principal</h4>
+					<!-- Ajoutez ici la liste des véhicules, commandes ou utilisateurs en fonction du filtre -->
+					<!-- Ce contenu sera rempli dynamiquement -->
+				</div>
+			</div>
+		</div>
+
+		<!-- Inclure Bootstrap JS -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	</body>
+</html>

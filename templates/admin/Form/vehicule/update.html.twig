@@ -1,0 +1,49 @@
+{# templates/admin/Form/vehicule/update.html.twig #}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Modifier un véhicule</title>
+		<!-- Inclure Bootstrap CSS ou tout autre CSS pour la mise en forme -->
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container mt-4">
+			<h1>Modifier un véhicule</h1>
+
+			{{ form_start(form) }}
+			<div class="form-group">
+				{{ form_label(form.titre, 'Titre') }}
+				{{ form_widget(form.titre, {'attr': {'class': 'form-control'}}) }}
+			</div>
+
+			<div class="form-group">
+				{{ form_label(form.marque, 'Marque') }}
+				{{ form_widget(form.marque, {'attr': {'class': 'form-control'}}) }}
+			</div>
+
+			<div class="form-group">
+				{{ form_label(form.modele, 'Modèle') }}
+				{{ form_widget(form.modele, {'attr': {'class': 'form-control'}}) }}
+			</div>
+
+			<div class="form-group">
+				{{ form_label(form.description, 'Description') }}
+				{{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+			</div>
+
+			<div class="form-group">
+				{{ form_label(form.photo, 'Photo') }}
+				{{ form_widget(form.photo, {'attr': {'class': 'form-control'}}) }}
+			</div>
+
+			<div class="form-group">
+				{{ form_label(form.prixJournalier, 'Prix journalier') }}
+				{{ form_widget(form.prixJournalier, {'attr': {'class': 'form-control'}}) }}
+			</div>
+
+
+			{{ form_end(form) }}
+		</div>
+	</body>
+</html>

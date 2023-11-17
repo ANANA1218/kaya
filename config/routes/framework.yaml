@@ -1,0 +1,53 @@
+when@dev:
+    _errors:
+        resource: '@FrameworkBundle/Resources/config/routing/errors.xml'
+        prefix: /_error
+
+app_login:
+    path: '/login'
+    controller: 'App\Controller\SecurityController::login'
+
+
+app_register:
+    path: '/register'
+    controller: 'App\Controller\RegistrationController::register'
+
+
+dashboard: ## nom de la route
+    path: / ## url 
+    controller: App\Controller\DashboardController::index
+
+
+
+
+## vehicule
+vehicules_list:
+    path: '/admin/vehicules'
+    controller: 'App\Controller\AdminController::vehiculesList'
+    # ...
+show_vehicule:
+    path: '/vehicule/{id}'
+    controller: 'App\Controller\AdminController::showVehiculeByID'
+
+
+create_vehicule:
+    path: '/admin/vehicule/create'
+    controller: 'App\Controller\AdminController::createVehicule'
+    # ...
+
+update_vehicule:
+    path: '/admin/vehicule/{id}/update'
+    controller: 'App\Controller\AdminController::updateVehicule'
+    # ...
+
+
+delete_vehicule:
+    path: '/admin/vehicule/{id}/delete'
+    controller: 'App\Controller\AdminController::deleteVehicule'
+   
+## admin
+
+homeAdmin: ## nom de la route
+    path: /admin ## url 
+    controller: App\Controller\AdminController::adminHome
+

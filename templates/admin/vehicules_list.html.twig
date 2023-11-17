@@ -1,0 +1,54 @@
+{# templates/admin/vehicules_list.html.twig #}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Liste des véhicules</title>
+		<!-- Inclure Bootstrap CSS ou tout autre CSS pour la mise en forme -->
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<!-- Barre de navigation -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container">
+				<a class="navbar-brand" href="{{ path('homeAdmin') }}">Admin Panel</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+		</nav>
+
+		<h1>Liste des véhicules</h1>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Marque</th>
+					<th>Modèle</th>
+					<th>Description</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for vehicule in vehicules %}
+					<tr>
+						<td>{{ vehicule.marque }}</td>
+						<td>{{ vehicule.modele }}</td>
+						<td>{{ vehicule.description }}</td>
+						<td>
+							<a href="{{ path('show_vehicule', {id: vehicule.id}) }}" class="btn btn-info">Voir</a>
+							<a href="{{ path('update_vehicule', {id: vehicule.id}) }}" class="btn btn-warning">Modifier</a>
+							<a href="#" onclick="event.preventDefault(); if (confirm('Êtes-vous sûr de vouloir supprimer ce véhicule ?')) { document.getElementById('delete-form-{{ vehicule.id }}').submit(); }" class="btn btn-warning">Supprimer</a>
+
+							<!-- Formulaire de suppression (caché) -->
+							<form id="delete-form-{{ vehicule.id }}" action="{{ path('delete_vehicule', {'id': vehicule.id}) }}" method="POST" style="display: none;">
+								<input type="hidden" name="_method" value="DELETE">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ vehicule.id) }}">
+							</form>
+						</td>
+					</tr>
+				</form>
+			</tbody>
+		</td>
+	</body>
+</html></tr>{% endfor %}</tbody></table><!-- Ajout du bouton pour créer un nouveau véhicule --><a href="{{ path('create_vehicule') }}" class="btn btn-primary">Ajouter un véhicule</a></body></html>

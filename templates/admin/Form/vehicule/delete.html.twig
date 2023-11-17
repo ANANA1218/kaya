@@ -1,0 +1,24 @@
+{# templates/admin/Form/vehicule/delete.html.twig #}
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Supprimer un véhicule</title>
+		<!-- Inclure Bootstrap CSS ou tout autre CSS pour la mise en forme -->
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<div class="container mt-4">
+			<h1>Confirmer la suppression</h1>
+			<p>Êtes-vous sûr de vouloir supprimer ce véhicule ?</p>
+
+			<form method="post" action="{{ path('delete_vehicule', {'id': vehicule.id}) }}">
+				<input type="hidden" name="_method" value="DELETE">
+				<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ vehicule.id) }}">
+
+				<a href="{{ path('vehicules_list') }}" class="btn btn-secondary">Annuler</a>
+				<button type="submit" class="btn btn-danger">Supprimer</button>
+			</form>
+		</div>
+	</body>
+</html>
