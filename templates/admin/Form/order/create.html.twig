@@ -3,20 +3,52 @@
 	<head>
 		<title>Ajouter une commande
 		</title>
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			/* Centrer le formulaire */
+			.form-container {
+				margin-top: 50px;
+			}
+
+			/* Style pour les inputs */
+			input[type="text"],
+			textarea {
+				width: 100%;
+				padding: 10px;
+				margin-bottom: 10px;
+				border-radius: 5px;
+				border: 1px solid #ccc;
+			}
+
+			input[type="submit"] {
+				padding: 10px 20px;
+				border-radius: 5px;
+				border: none;
+				background-color: #007bff;
+				color: white;
+				cursor: pointer;
+			}
+		</style>
 	</head>
 	<body>
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 form-container">
+					<h1>Ajouter une commande
+					</h1>
 
-		<h1>Ajouter une commande
-		</h1>
+					{{ form_start(form) }}
+					{{ form_row(form.user) }}
+					{{ form_row(form.vehicule) }}
+					{{ form_row(form.date_heure_depart) }}
+					{{ form_row(form.date_heure_fin) }}
+					{{ form_row(form.prix_total) }}
 
-		{{ form_start(form) }}
-		{{ form_row(form.user) }}
-		{{ form_row(form.vehicule) }}
-		{{ form_row(form.date_heure_depart) }}
-		{{ form_row(form.date_heure_fin) }}
-		{{ form_row(form.prix_total) }}
-
-		{{ form_end(form) }}
-
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</div>
+		<!-- Inclure Bootstrap JS -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	</body>
 </html>
