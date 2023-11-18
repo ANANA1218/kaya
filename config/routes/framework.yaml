@@ -111,3 +111,5 @@ delete_commande:
     path: '/admin/commande/{id}/delete'
     controller: 'App\Controller\AdminController::deleteCommande'
    
+
+ # #  recher
