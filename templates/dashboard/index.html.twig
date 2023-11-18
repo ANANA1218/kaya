@@ -1,20 +1,66 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Navbar avec Bootstrap</title>
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Recherche de Véhicules</title>
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<style>
+			/* Styles pour l'image en arrière-plan */
+			body {
+				background: url('https://img.freepik.com/photos-premium/trafic-roue-technologie-classique-automobile-moderne_665346-119.jpg') no-repeat center center fixed;
+				background-size: cover;
+				height: 100%;
+			}
 
-{% block title %}Hello DashboardController!{% endblock %}
+			/* Styles pour le formulaire */
+			.search-form {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background-color: rgba(255, 255, 255, 0.8);
+				padding: 20px;
+				border-radius: 5px;
+			}
+		</style>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="{{ path('dashboard') }}">Mon Site</a>
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+			<!-- Liste déroulante -->
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav ml-auto">
+					<li
+						class="nav-item">
+						<!-- Lien transformé en un emoji de profil -->
+						<a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span style="font-size: 24px;" class="material-icons">👤</span>
+						</a>
+						<!-- Contenu de la liste déroulante -->
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="{{ path('app_register') }}">Inscription</a>
+							<a class="dropdown-item" href="{{ path('app_login') }}">Connexion</a>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</nav>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/laragon/www/M1/Final en version 6.3/kaya/src/Controller/DashboardController.php'|file_link(0) }}">src/Controller/DashboardController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/laragon/www/M1/Final en version 6.3/kaya/templates/dashboard/index.html.twig'|file_link(0) }}">templates/dashboard/index.html.twig</a></code></li>
-    </ul>
-</div>
-{% endblock %}
+		<!-- Formulaire de recherche -->
+		<div class="container search-form">
+			<h2>Recherche de Véhicules</h2>
+			<form method="GET">
+				<button type="submit" class="btn btn-primary">Rechercher</button>
+			</form>
+		</div>
+
+		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	</body>
+</html>
