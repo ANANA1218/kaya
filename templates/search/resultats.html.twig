@@ -21,7 +21,9 @@
 						{{ vehicule.marque }}
 						-
 						{{ vehicule.modele }}
-						<!-- Affichez d'autres détails du véhicule si nécessaire -->
+
+						<a href="{{ path('reserver_vehicule', {'id': vehicule.id}) }}">Réserver</a>
+
 					</li>
 				{% endfor %}
 			</ul>

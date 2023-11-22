@@ -118,3 +118,17 @@ search_vehicules:
     path: '/search_vehicles'
     controller: 'App\Controller\DashboardController::searchVehicles'
  
+reserver_vehicule:
+    path: /reservation/{id}
+    controller: App\Controller\CommandeController::reserverVehicule
+   
+
+afficher_panier:
+    path: /panier
+    controller: App\Controller\CommandeController::afficherPanier
+ 
+
+supprimer_vehicule_panier:
+    path: /panier/supprimer/{id}
+    controller: App\Controller\CommandeController::supprimerVehiculePanier
+
