@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Panier</title>
+		<!-- Les liens vers vos fichiers CSS ou autres ressources -->
+	</head>
+	<body>
+		<h1>Votre panier :</h1>
+
+		<ul>
+			{% for vehicule in vehiculesPanier %}
+				<li>
+					{{ vehicule.titre }}
+					-
+					{{ vehicule.marque }}
+					-
+					{{ vehicule.modele }}
+					<a href="{{ path('supprimer_vehicule_panier', {'id': vehicule.id}) }}">Supprimer</a>
+				</li>
+			{% endfor %}
+		</ul>
+
+		<!-- Autres éléments ou scripts JavaScript -->
+
+	</body>
+</html>
