@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Résultats de la recherche de véhicules</title>
+		<!-- Les liens vers vos fichiers CSS ou autres ressources -->
+	</head>
+	<body>
+		<h1>Résultats de la recherche de véhicules disponibles :</h1>
+
+		<p>Date de début :
+			{{ dateDebut }}</p>
+		<p>Date de fin :
+			{{ dateFin }}</p>
+
+		{% if vehiculesDisponibles is not empty %}
+			<ul>
+				{% for vehicule in vehiculesDisponibles %}
+					<li>
+						{{ vehicule.titre }}
+						-
+						{{ vehicule.marque }}
+						-
+						{{ vehicule.modele }}
+						<!-- Affichez d'autres détails du véhicule si nécessaire -->
+					</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<p>Aucun véhicule disponible pour les dates spécifiées.</p>
+		{% endif %}
+
+		<!-- Autres éléments ou scripts JavaScript -->
+
+	</body>
+</html>

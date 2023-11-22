@@ -7,6 +7,8 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: VehiculeRepository::class)]
 class Vehicule
@@ -41,10 +43,15 @@ class Vehicule
     #[ORM\Column(name: "date_enregistrement", type: "datetime")]
     private \DateTimeInterface $dateEnregistrement;
 
+/**
+     * @ORM\OneToMany(targetEntity=Commande::class, mappedBy="vehicule")
+     */
+    private $commandes;
 
     public function __construct()
     {
         $this->dateEnregistrement = new \DateTime(); // Date d'enregistrement définie lors de la création de la commande
+        $this->commandes = new ArrayCollection();
     }
 
     
@@ -149,4 +156,38 @@ class Vehicule
         $this->disponibilite = $disponibilite;
         return $this;
     }
+
+
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->setVehicule($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commandes->contains($commande)) {
+            $this->commandes->removeElement($commande);
+            // Vous n'avez pas besoin de définir le côté inverse à null ici
+    
+            // Si vous avez un code ici pour gérer la relation inverse, vous pouvez l'ajouter
+        }
+    
+        return $this;
+    }
+    
+
+
+    
 }

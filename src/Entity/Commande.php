@@ -16,10 +16,10 @@ class Commande
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(name: "date_heure_depart", type: "datetime")]
+    #[ORM\Column(name: "date_heure_depart", type: "date")]
     private \DateTimeInterface $dateHeureDepart;
 
-    #[ORM\Column(name: "date_heure_fin", type: "datetime")]
+    #[ORM\Column(name: "date_heure_fin", type: "date")]
     private \DateTimeInterface $dateHeureFin;
 
     #[ORM\Column(name: "prix_total", type: "integer")]
@@ -30,7 +30,7 @@ class Commande
     #[ORM\JoinColumn(name: "id_user", referencedColumnName: "id", nullable: false)]
     private User $user;
 
-    #[ORM\ManyToOne(targetEntity: Vehicule::class)]
+    #[ORM\ManyToOne(targetEntity: Vehicule::class, inversedBy: "commandes")]
     #[ORM\JoinColumn(name: "id_vehicule", referencedColumnName: "id", nullable: false)]
     private Vehicule $vehicule;
 
@@ -65,27 +65,28 @@ class Commande
         return $this->id;
     }
 
-    public function getDateHeureDepart(): \DateTimeInterface
+    public function getDateDepart(): string
     {
-        return $this->dateHeureDepart;
+        return $this->dateHeureDepart->format('Y-m-d');
     }
-
-    public function setDateHeureDepart(\DateTimeInterface $dateHeureDepart): self
+    
+    public function setDateDepart(string $dateDepart): self
     {
-        $this->dateHeureDepart = $dateHeureDepart;
+        $this->dateHeureDepart = \DateTime::createFromFormat('Y-m-d', $dateDepart);
         return $this;
     }
-
-    public function getDateHeureFin(): \DateTimeInterface
+    
+    public function getDateFin(): string
     {
-        return $this->dateHeureFin;
+        return $this->dateHeureFin->format('Y-m-d');
     }
-
-    public function setDateHeureFin(\DateTimeInterface $dateHeureFin): self
+    
+    public function setDateFin(string $dateFin): self
     {
-        $this->dateHeureFin = $dateHeureFin;
+        $this->dateHeureFin = \DateTime::createFromFormat('Y-m-d', $dateFin);
         return $this;
     }
+    
 
     public function getPrixTotal(): int
     {
