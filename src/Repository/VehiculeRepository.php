@@ -5,8 +5,8 @@ namespace App\Repository;
 use App\Entity\Vehicule;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityRepository;
-
+use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\Query\Expr\Join;
 
 /**
  * @extends ServiceEntityRepository<Vehicule>
@@ -43,26 +43,48 @@ class VehiculeRepository extends ServiceEntityRepository
     }
 
 
-    public function findAvailableVehicles(\DateTimeInterface $startDate, \DateTimeInterface $endDate)
+  /*  public function findVehiculesDisponibles($dateDebut, $dateFin)
     {
-        // Construire une requête pour trouver les véhicules disponibles
-        $qb = $this->createQueryBuilder('v');
-        $qb->leftJoin('v.commandes', 'c')
-            ->where(
-                $qb->expr()->orX(
-                    $qb->expr()->isNull('c.id'), // Vérifie si le véhicule n'a pas de commande associée
-                    $qb->expr()->orX(
-                        $qb->expr()->gt('c.date_heure_fin', ':start_date'), // Vérifie si la commande se termine après la date de début
-                        $qb->expr()->lt('c.date_heure_depart', ':end_date') // Vérifie si la commande commence avant la date de fin
-                    )
+        return $this->createQueryBuilder('v')
+            ->leftJoin('v.commandes', 'c')
+            ->where('v.disponibilite = :disponible')
+            ->andWhere(':dateDebut NOT BETWEEN c.dateHeureDepart AND c.dateHeureFin')
+            ->andWhere(':dateFin NOT BETWEEN c.dateHeureDepart AND c.dateHeureFin')
+            ->andWhere('c.id IS NULL') // Vérifie si le véhicule n'a aucune commande qui se chevauche
+            ->setParameter('disponible', true)
+            ->setParameter('dateDebut', $dateDebut)
+            ->setParameter('dateFin', $dateFin)
+            ->getQuery()
+            ->getResult();
+    }*/
+    public function findVehiculesDisponibles($dateDebut, $dateFin)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            "SELECT v
+            FROM App\Entity\Vehicule v
+            WHERE v.disponibilite = true
+            AND NOT EXISTS (
+                SELECT 1
+                FROM App\Entity\Commande c
+                WHERE c.vehicule = v
+                AND (
+                    (:dateDebut BETWEEN c.dateHeureDepart AND c.dateHeureFin)
+                    OR (:dateFin BETWEEN c.dateHeureDepart AND c.dateHeureFin)
+                    OR (c.dateHeureDepart BETWEEN :dateDebut AND :dateFin)
+                    OR (c.dateHeureFin BETWEEN :dateDebut AND :dateFin)
                 )
-            )
-            ->setParameter('start_date', $startDate)
-            ->setParameter('end_date', $endDate);
+            )"
+        );
 
-        return $qb->getQuery()->getResult();
+        $query->setParameter('dateDebut', $dateDebut);
+        $query->setParameter('dateFin', $dateFin);
+
+        return $query->getResult();
+    
     }
-
+    
 
 //    /**
 //     * @return Vehicule[] Returns an array of Vehicule objects
