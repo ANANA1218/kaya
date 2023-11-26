@@ -2,36 +2,135 @@
 <html>
 	<head>
 		<title>Résultats de la recherche de véhicules</title>
-		<!-- Les liens vers vos fichiers CSS ou autres ressources -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #f5f5f5;
+				margin: 0;
+				padding: 20px;
+			}
+
+			h1 {
+				font-size: 28px;
+				color: #333;
+				margin-bottom: 20px;
+			}
+
+			.list-group-item {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 20px;
+				margin-bottom: 20px;
+				background-color: #fff;
+				border: 1px solid #ddd;
+				border-radius: 5px;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			}
+
+			.list-group-item img {
+				width: 150px;
+				height: auto;
+				margin-right: 20px;
+			}
+
+			.btn {
+				background-color: #007bff;
+				color: #fff;
+				border: none;
+				padding: 8px 16px;
+				border-radius: 3px;
+				cursor: pointer;
+			}
+
+			.btn:hover {
+				background-color: #0056b3;
+			}
+
+			p {
+				margin-bottom: 10px;
+				color: #333;
+			}
+
+			.container {
+				max-width: 800px;
+				margin: 0 auto;
+			}
+
+			/* Media query for responsiveness */
+			@media(max-width: 768px) {
+				.list-group-item {
+					flex-direction: column;
+					align-items: flex-start;
+				}
+
+				.list-group-item img {
+					margin-bottom: 10px;
+					margin-right: 0;
+				}
+
+				.btn {
+					margin-top: 10px;
+				}
+			}
+		</style>
 	</head>
 	<body>
-		<h1>Résultats de la recherche de véhicules disponibles :</h1>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="{{ path('dashboard') }}">KAYA</a>
 
-		<p>Date de début :
-			{{ dateDebut }}</p>
-		<p>Date de fin :
-			{{ dateFin }}</p>
-
-		{% if vehiculesDisponibles is not empty %}
-			<ul>
-				{% for vehicule in vehiculesDisponibles %}
-					<li>
-						{{ vehicule.titre }}
-						-
-						{{ vehicule.marque }}
-						-
-						{{ vehicule.modele }}
-
-						<a href="{{ path('reserver_vehicule', {'id': vehicule.id}) }}">Réserver</a>
-
+			<!-- Liste déroulante -->
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav ml-auto">
+					<li
+						class="nav-item">
+						<!-- Lien transformé en un emoji de profil -->
+						<a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<span style="font-size: 24px;" class="material-icons">👤</span>
+						</a>
+						<!-- Contenu de la liste déroulante -->
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="{{ path('app_register') }}">Inscription</a>
+							<a class="dropdown-item" href="{{ path('app_login') }}">Connexion</a>
+						</div>
 					</li>
-				{% endfor %}
-			</ul>
-		{% else %}
-			<p>Aucun véhicule disponible pour les dates spécifiées.</p>
-		{% endif %}
+				</ul>
+			</div>
+		</nav>
 
-		<!-- Autres éléments ou scripts JavaScript -->
+		<div class="container">
+			<h1>Résultats de la recherche de véhicules disponibles :</h1>
 
-	</body>
-</html>
+			<p>Date de début :
+				{{ dateDebut }}</p>
+			<p>Date de fin :
+				{{ dateFin }}</p>
+
+			{% if vehiculesDisponibles is not empty %}
+				<ul class="list-group">
+					{% for vehicule in vehiculesDisponibles %}
+						<li class="list-group-item">
+							{% if vehicule.photo %}
+								<td><img src="{{ asset('upload/' ~ vehicule.photo) }}" alt="Photo du véhicule"></td>
+							{% endif %}
+							<div style="flex: 1;">
+								<h5>{{ vehicule.marque }}
+									-
+									{{ vehicule.titre }}
+									-
+									{{ vehicule.modele }}</h5>
+
+								<a href="{{ path('synthese_reservation', { 'id_vehicule': vehicule.id, 'date_debut': dateDebut, 'date_fin': dateFin }) }}">
+									Réserver
+								</a>
+							</li>
+						</li>
+					</div>
+				</li>
+			{% endfor %}
+		</ul>
+	{% else %}
+		<p>Aucun véhicule disponible pour les dates spécifiées.</p>
+	{% endif %}
+</html></div><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script></body></html></body></html>

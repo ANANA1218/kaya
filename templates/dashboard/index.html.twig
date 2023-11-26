@@ -1,35 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 	<head>
-		<title>Dashboard - Recherche de Véhicules</title>
+		<title>Recherche de Véhicules - Kayak Style</title>
 		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<style>
 			/* Styles pour l'image en arrière-plan */
 			body {
 				background: url('https://img.freepik.com/photos-premium/trafic-roue-technologie-classique-automobile-moderne_665346-119.jpg') no-repeat center center fixed;
 				background-size: cover;
-				height: 100%;
+				height: 100vh;
+				margin: 0;
+				padding: 20px;
+				display: flex;
+				flex-direction: column;
+			}
+
+			/* Styles pour la navbar */
+			.navbar {
+				margin-bottom: 20px; /* Espace sous la navbar */
 			}
 
 			/* Styles pour le formulaire */
 			.search-form {
-				position: absolute;
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
-				background-color: rgba(255, 255, 255, 0.8);
-				padding: 20px;
+				background-color: rgba(255, 255, 255, 0.9);
+				padding: 40px;
 				border-radius: 5px;
+				width: 80%;
+				max-width: 600px;
+				margin: auto;
+			}
+
+			.search-form h1 {
+				font-size: 32px;
+				margin-bottom: 30px;
+				text-align: center;
+			}
+
+			.search-form form {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			.search-form label {
+				width: 100%;
+				margin-bottom: 10px;
+				color: #333;
+			}
+
+			.search-form input[type="date"],
+			.search-form button {
+				width: 48%;
+				padding: 8px;
+				border-radius: 3px;
+				border: 1px solid #ccc;
+				font-size: 16px;
+				transition: border-color 0.3s;
+			}
+
+			.search-form input[type="date"]:focus,
+			.search-form button:hover {
+				border-color: #007bff;
+				outline: none;
+			}
+
+			.search-form button {
+				background-color: #007bff;
+				color: #fff;
+				cursor: pointer;
+				transition: background-color 0.3s, color 0.3s;
+			}
+
+			.search-form button:hover {
+				background-color: #0056b3;
 			}
 		</style>
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="{{ path('dashboard') }}">Mon Site</a>
-
-			<!-- Liste déroulante -->
+			<a class="navbar-brand" href="{{ path('dashboard') }}">Kaya</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 			<div class="collapse navbar-collapse" id="navbarCollapse">
 				<ul class="navbar-nav ml-auto">
 					<li
@@ -48,9 +101,9 @@
 			</div>
 		</nav>
 
-		<!-- Formulaire de recherche -->
 		<div class="container search-form">
-			<h1>Recherche de véhicules disponibles :</h1>
+			<h1>Recherche de véhicules disponibles
+			</h1>
 
 			<form action="{{ path('search_vehicules') }}" method="GET">
 				<label for="dateDebut">Date de début :</label>
@@ -59,12 +112,9 @@
 				<label for="dateFin">Date de fin :</label>
 				<input type="date" id="dateFin" name="date_fin">
 
-				<button type="submit">Rechercher</button>
+				<button type="submit" class="btn btn-primary">Rechercher</button>
 			</form>
-
-			<!-- Autres éléments ou scripts JavaScript -->
 		</div>
-
 
 		<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
