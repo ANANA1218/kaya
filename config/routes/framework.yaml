@@ -132,3 +132,7 @@ supprimer_vehicule_panier:
     path: /panier/supprimer/{id}
     controller: App\Controller\CommandeController::supprimerVehiculePanier
 
+
+synthese_reservation:
+    path: /synthese_reservation/{id_vehicule}
+    controller: App\Controller\CommandeController::syntheseReservation

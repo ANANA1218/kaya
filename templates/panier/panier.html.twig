@@ -1,26 +1,37 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Panier</title>
-		<!-- Les liens vers vos fichiers CSS ou autres ressources -->
+		<title>Synthèse de la réservation</title>
+		<!-- Ajoutez vos liens vers les styles et scripts nécessaires ici -->
 	</head>
 	<body>
-		<h1>Votre panier :</h1>
+		<div class="container">
+			<h1>Synthèse de la réservation</h1>
 
-		<ul>
-			{% for vehicule in vehiculesPanier %}
-				<li>
-					{{ vehicule.titre }}
-					-
-					{{ vehicule.marque }}
-					-
-					{{ vehicule.modele }}
-					<a href="{{ path('supprimer_vehicule_panier', {'id': vehicule.id}) }}">Supprimer</a>
-				</li>
-			{% endfor %}
-		</ul>
+			<!-- Affichage des détails du véhicule choisi -->
+			<div>
+				<h2>Détails du véhicule choisi :</h2>
+				<p>Marque :
+					{{ vehicule.marque }}</p>
+				<p>Titre :
+					{{ vehicule.titre }}</p>
+				<p>Modèle :
+					{{ vehicule.modele }}</p>
+				<!-- Autres détails du véhicule -->
+			</div>
 
-		<!-- Autres éléments ou scripts JavaScript -->
+			<!-- Affichage des dates de début et de fin de réservation -->
+			<div>
+				<h2>Dates de réservation :</h2>
+				<p>Date de début :
+					{{ dateDebut }}</p>
+				<p>Date de fin :
+					{{ dateFin }}</p>
+			</div>
 
+
+		</div>
+
+		<!-- Ajoutez vos scripts nécessaires ici -->
 	</body>
 </html>
