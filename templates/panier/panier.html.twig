@@ -5,6 +5,35 @@
 		<!-- Ajoutez vos liens vers les styles et scripts nécessaires ici -->
 	</head>
 	<body>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="{{ path('dashboard') }}">Kaya</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav ml-auto">
+					{% if app.user %}
+						<!-- Si l'utilisateur est connecté -->
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<span style="font-size: 24px;" class="material-icons">👤</span>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="{{ path('user_details') }}">Profil</a>
+							</div>
+						</li>
+					{% else %}
+						<!-- Si l'utilisateur n'est pas connecté -->
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
 		<div class="container">
 			<h1>Synthèse de la réservation</h1>
 
@@ -29,9 +58,29 @@
 					{{ dateFin }}</p>
 			</div>
 
+			{% if app.user  %}
+				<form
+					action="{{ path('valider_reservation') }}" method="post">
+					<!-- Champs cachés pour stocker l'ID du véhicule -->
+					<input
+					type="hidden" name="id_vehicule" value="{{ vehicule.id }}">
+					<!-- Champs cachés pour la date de début et la date de fin -->
+					<input type="hidden" name="date_debut" value="{{ dateDebut }}">
+					<input
+					type="hidden" name="date_fin" value="{{ dateFin }}">
+					<!-- Champs cachés pour l'ID de l'utilisateur -->
+					<input type="hidden" name="id_user" value="{{ app.user.id }}">
 
+					<input type="submit" value="Valider la réservation">
+				</form>
+			{% else %}
+				<!-- Boutons pour ouvrir les pop-ups -->
+				<a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+				<a href="{{ path('app_register') }}" class="btn btn-secondary">S'inscrire</a>
+			{% endif %}
 		</div>
 
 		<!-- Ajoutez vos scripts nécessaires ici -->
+
 	</body>
 </html>

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
+		<meta charset="UTF-8">
 		<title>Résultats de la recherche de véhicules</title>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 		<style>
 			body {
 				font-family: Arial, sans-serif;
@@ -78,30 +79,16 @@
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" href="{{ path('dashboard') }}">KAYA</a>
+			<a class="navbar-brand" href="{{ path('dashboard') }}">Kaya</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 
-			<!-- Liste déroulante -->
-			<div class="collapse navbar-collapse" id="navbarCollapse">
-				<ul class="navbar-nav ml-auto">
-					<li
-						class="nav-item">
-						<!-- Lien transformé en un emoji de profil -->
-						<a class="nav-link" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<span style="font-size: 24px;" class="material-icons">👤</span>
-						</a>
-						<!-- Contenu de la liste déroulante -->
-						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="{{ path('app_register') }}">Inscription</a>
-							<a class="dropdown-item" href="{{ path('app_login') }}">Connexion</a>
-						</div>
-					</li>
-				</ul>
-			</div>
 		</nav>
 
 		<div class="container">
-			<h1>Résultats de la recherche de véhicules disponibles :</h1>
-
+			<h5>Résultats de la recherche de véhicules disponibles :</h5>
+			<!-- Affichage des dates -->
 			<p>Date de début :
 				{{ dateDebut }}</p>
 			<p>Date de fin :
@@ -112,7 +99,7 @@
 					{% for vehicule in vehiculesDisponibles %}
 						<li class="list-group-item">
 							{% if vehicule.photo %}
-								<td><img src="{{ asset('upload/' ~ vehicule.photo) }}" alt="Photo du véhicule"></td>
+								<img src="{{ asset('upload/' ~ vehicule.photo) }}" alt="Photo du véhicule">
 							{% endif %}
 							<div style="flex: 1;">
 								<h5>{{ vehicule.marque }}
@@ -120,17 +107,19 @@
 									{{ vehicule.titre }}
 									-
 									{{ vehicule.modele }}</h5>
-
 								<a href="{{ path('synthese_reservation', { 'id_vehicule': vehicule.id, 'date_debut': dateDebut, 'date_fin': dateFin }) }}">
 									Réserver
 								</a>
-							</li>
+							</div>
 						</li>
-					</div>
-				</li>
-			{% endfor %}
-		</ul>
-	{% else %}
-		<p>Aucun véhicule disponible pour les dates spécifiées.</p>
-	{% endif %}
-</html></div><script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script></body></html></body></html>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<p>Aucun véhicule disponible pour les dates spécifiées.</p>
+			{% endif %}
+		</div>
+
+		<!-- Inclure le script Bootstrap -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	</body>
+</html>

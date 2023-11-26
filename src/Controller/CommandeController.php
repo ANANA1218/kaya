@@ -22,10 +22,13 @@ class CommandeController extends AbstractController
     private $commandeRepository;
     private $vehiculeRepository;
 
-    public function __construct(CommandeRepository $commandeRepository, VehiculeRepository $vehiculeRepository)
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(CommandeRepository $commandeRepository, VehiculeRepository $vehiculeRepository, EntityManagerInterface $entityManager)
     {
         $this->commandeRepository = $commandeRepository;
         $this->vehiculeRepository = $vehiculeRepository;
+        $this->entityManager = $entityManager;
     }
 
 
@@ -152,7 +155,83 @@ public function supprimerVehiculePanier(Request $request, $id): Response
     }
 
 
+/*
+    public function validerReservation(Request $request): Response
+    {
+        // Récupérer l'utilisateur connecté (si nécessaire)
+        $user = $this->getUser(); // Exemple basique, à adapter selon votre système d'authentification
+
+        // Récupérer les données de la requête pour la réservation
+        $dateDebut = $request->request->get('dateDebut');
+        $dateFin = $request->request->get('dateFin');
+        $prixTotal = $request->request->get('prixTotal');
+        $idVehicule = $request->request->get('id_vehicule');
+
+        // Création d'une nouvelle commande
+        $commande = new Commande();
+        $commande->setDateDepart(new \DateTime($dateDebut));
+        $commande->setDateFin(new \DateTime($dateFin));
+        $commande->setPrixTotal($prixTotal);
+        $commande->setVehicule($idVehicule);
+
+        // Si vous avez un système d'authentification, associez l'utilisateur à cette commande
+        if ($user !== null) {
+            $commande->setUser($user);
+        }
+
+        // Enregistrement de la commande dans la base de données
+        $this->entityManager->persist($commande);
+        $this->entityManager->flush();
+
+        // Redirection vers la confirmation de la réservation ou une autre page
+        return $this->redirectToRoute('confirmation_reservation');
+    }
+*/
 
 
+#[Route('/valider_reservation', name: 'valider_reservation', methods: ['POST'])]
+public function validerReservation(Request $request): Response
+{
+    // Récupérer les données depuis la requête
+    $dateDepartString = $request->request->get('date_debut');
+    $dateFinString = $request->request->get('date_fin');
+    
+    // Convertir la chaîne de caractères en objet DateTime
+    $dateDepart = \DateTime::createFromFormat('Y-m-d', $dateDepartString);
+    $dateFin = \DateTime::createFromFormat('Y-m-d', $dateFinString);
+    
+    $id_vehicule = $request->request->get('id_vehicule');
+
+    // Récupérer l'utilisateur connecté
+    $user = $this->getUser();
+
+    // Récupérer le véhicule à partir de l'ID
+    $vehicule = $this->vehiculeRepository->find($id_vehicule);
+
+    // Calculer la durée de la réservation en jours
+    $dureeReservation = $dateFin->diff($dateDepart)->days;
+
+    // Calculer le prix total en fonction de la durée de la réservation et du prix journalier du véhicule
+    $prixTotal = $dureeReservation * $vehicule->getPrixJournalier();
+
+    // Créer une nouvelle instance de Commande
+    $commande = new Commande();
+    $commande->setDateDepart($dateDepart->format('Y-m-d'));
+    $commande->setDateFin($dateFin->format('Y-m-d'));
+    $commande->setPrixTotal($prixTotal);
+    $commande->setUser($user);
+    $commande->setVehicule($vehicule);
+
+    // Enregistrer la commande dans la base de données
+   
+    $this->entityManager->persist($commande);
+    $this->entityManager->flush();
+
+    // Rediriger vers une page de confirmation ou autre
+    return $this->redirectToRoute('dashboard', [
+        // ... (autres variables)
+        'prixTotal' => $prixTotal,
+    ]);
+}
 
 }

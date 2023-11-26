@@ -49,7 +49,6 @@
 					class="col-md-9 mt-4">
 					<!-- Le contenu principal sera rempli dynamiquement en fonction du filtre sélectionné -->
 					<h4>Liste des commande</h4>
-					<a href="{{ path('create_commande') }}" class="btn btn-primary">Ajouter un commande</a>
 					<table class="table">
 						<thead>
 							<tr>
@@ -63,11 +62,10 @@
 							{% for commande in pagination %}
 								<tr>
 									<td>{{ commande.id }}</td>
-									<td>{{ commande.dateHeureDepart|date('Y-m-d H:i:s') }}</td>
-									<td>{{ commande.dateHeureFin|date('Y-m-d H:i:s') }}</td>
+									<td>{{ commande.getDateDepart|date('Y-m-d H:i:s') }}</td>
+									<td>{{ commande.getDateFin|date('Y-m-d H:i:s') }}</td>
 									<td>
 										<a href="{{ path('show_commande', {id: commande.id}) }}" class="btn btn-info">Voir</a>
-										<a href="{{ path('update_commande', {id: commande.id}) }}" class="btn btn-warning">Modifier</a>
 										<a href="#" onclick="event.preventDefault(); if (confirm('Êtes-vous sûr de vouloir supprimer cette commande ?')) { document.getElementById('delete-form-{{ commande.id }}').submit(); }" class="btn btn-danger">Supprimer</a>
 
 										<!-- Formulaire de suppression (caché) -->
