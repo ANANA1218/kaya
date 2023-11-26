@@ -5,10 +5,30 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Commande;
+use App\Repository\CommandeRepository;
 
 class ProfileAdminController extends AbstractController
 {
-    #[Route('/admin/user-details', name: 'user_details')]
+
+
+
+    private $commandeRepository;
+    private $vehiculeRepository;
+
+  
+
+    public function __construct(CommandeRepository $commandeRepository)
+    {
+        $this->commandeRepository = $commandeRepository;
+       
+    }
+
+
+
+
+
+    #[Route('/user-details', name: 'user_details')]
     public function userDetails(): Response
     {
         // Récupérer l'utilisateur actuellement connecté
@@ -26,6 +46,8 @@ class ProfileAdminController extends AbstractController
         $userPseudo = $user->getPseudo();
         $userName = $user->getNom();
         $userFirstName = $user->getPrenom();
+
+        $userCommands = $this->commandeRepository->findBy(['user' => $user]);
     
         // Afficher l'ID de l'utilisateur dans une vue
         return $this->render('admin/profile/index.html.twig', [
@@ -34,6 +56,7 @@ class ProfileAdminController extends AbstractController
             'userPseudo' => $userPseudo,
             'userName' => $userName,
             'userFirstName' => $userFirstName,
+            'userCommands' => $userCommands,
         ]);
     }
     

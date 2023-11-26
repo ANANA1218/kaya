@@ -1,28 +1,44 @@
+{# admin/orders_by_id.html.twig #}
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Détails de la commande</title>
-		<!-- Inclure Bootstrap CSS -->
-		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<title>Commande Details</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	</head>
 	<body>
+		<div class="container mt-5">
+			<h1>Detail de la commande</h1>
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">Commande ID:
+						{{ commande.id }}</h5>
+					<p class="card-text">Date de Départ:
+						{{ commande.getDateDepart|date('Y-m-d') }}</p>
+					<p class="card-text">Date de Fin:
+						{{ commande.getDateFin|date('Y-m-d') }}</p>
+					<p class="card-text">Prix Total:
+						{{ commande.getPrixTotal }}</p>
 
-		<div class="container">
-			<h1>Détails de la commande</h1>
-			{% if commande %}
-				<p>ID de la commande:
-					{{ commande.id }}</p>
-				<p>Date et heure de départ:
-					{{ commande.dateHeureDepart|date('Y-m-d H:i:s') }}</p>
-				<p>Date et heure de fin:
-					{{ commande.dateHeureFin|date('Y-m-d H:i:s') }}</p>
-				<!-- Autres détails de la commande -->
-			{% else %}
-				<p>Aucune commande trouvée.</p>
-			{% endif %}
+					<!-- Affichage des détails du véhicule -->
+					<h5 class="card-title">Détails du Véhicule</h5>
+					{% if commande.vehicule.photo %}
+						<td><img src="{{ asset('upload/' ~ commande.vehicule.photo) }}" alt="Photo du véhicule" class="img-small"></td>
+					{% endif %}
+					<p class="card-text">Marque:
+						{{ commande.vehicule.marque }}</p>
+					<p class="card-text">Modèle:
+						{{ commande.vehicule.modele }}</p>
+					<p class="card-text">Description:
+						{{ commande.vehicule.description }}</p>
+					<p class="card-text">Prix Journalier:
+						{{ commande.vehicule.getPrixJournalier }}</p>
+					<!-- Ajoutez d'autres détails du véhicule ici -->
+
+					<!-- Bouton pour revenir en arrière -->
+					<a href="{{ path('orders_list') }}" class="btn btn-primary">Retour</a>
+				</div>
+			</div>
 		</div>
-
-		<!-- Inclure Bootstrap JS -->
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	</body>
 </html>

@@ -52,7 +52,7 @@ homeAdmin: ## nom de la route
     controller: App\Controller\AdminController::adminHome
 
 user_details:
-    path: /admin/user-details ## url 
+    path: /user-details ## url 
     controller: App\Controller\ProfileAdminController::userDetails
 
 
@@ -136,3 +136,12 @@ supprimer_vehicule_panier:
 synthese_reservation:
     path: /synthese_reservation/{id_vehicule}
     controller: App\Controller\CommandeController::syntheseReservation
+
+valider_reservation:
+    path: /valider_reservation
+    controller: App\Controller\CommandeController::validerReservation
+
+
+error_pages:
+    path: /access-denied
+    controller: App\Controller\ErrorController::accessDenied

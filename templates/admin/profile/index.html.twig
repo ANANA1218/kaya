@@ -57,10 +57,45 @@
 								</div>
 							</div>
 							<div class="border-top pt-3">
-								<p>ID:
+								<p>Email:
 									{{ userId }}</p>
 								<!-- Ajoutez d'autres informations de l'utilisateur ici -->
 							</div>
+							<div class="row mt-5">
+								<div class="col-md-12">
+									<h2>Commande
+									</h2>
+									<table class="table">
+										<thead>
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Start Date</th>
+												<th scope="col">End Date</th>
+												<th scope="col">Total Price</th>
+												<th scope="col">Vehicle</th>
+												<!-- New header for vehicle -->
+												<!-- Add more command details here -->
+											</tr>
+										</thead>
+										<tbody>
+											<!-- Loop through user's commands and display them -->
+											{% for command in userCommands %}
+												<tr>
+													<th scope="row">{{ command.getId }}</th>
+													<td>{{ command.getDateDepart()|date('Y-m-d') }}</td>
+													<td>{{ command.getDateFin()|date('Y-m-d') }}</td>
+													<td>{{ command.getPrixTotal()  }}</td>
+													<td>{{ command.getVehicule().marque }}
+														-
+														{{ command.getVehicule().modele }}</td>
+													<!-- Add more command details here -->
+												</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+
 						</div>
 					</div>
 				</div>
