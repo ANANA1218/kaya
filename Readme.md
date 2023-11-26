@@ -21,3 +21,6 @@ En se connectant avec le rôle ROLE_ADMIN, l'utilisateur a accès à une page d'
 
 Attention
 Modifier manuellement les rôles des utilisateurs peut avoir des implications sur les autorisations et les droits d'accès. Il est crucial de bien comprendre les implications de chaque rôle avant de procéder à des modifications.
+
+Attention aussi: 
+Parfois, malgré l'ajout du champ date_enregistrement dans une migration, la configuration pour qu'il se remplisse automatiquement avec la date et l'heure actuelles peut être omise .
