@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Synthèse de la réservation</title>
+		<!-- Ajoutez vos liens vers les styles et scripts nécessaires ici -->
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="{{ path('homeAdmin') }}">Kaya admin</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarCollapse">
+				<ul class="navbar-nav ml-auto">
+					{% if app.user %}
+						<!-- Si l'utilisateur est connecté -->
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('user_details') }}">Profil</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_logout') }}">Déconnexion</a>
+						</li>
+					{% else %}
+						<!-- Si l'utilisateur n'est pas connecté -->
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_register') }}">Inscription</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+		</nav>
+		<div class="container">
+			<h5>Synthèse de la réservation</h5>
+
+			<!-- Affichage des détails du véhicule choisi -->
+			<div>
+				<h5>Détails du véhicule choisi :</h5>
+				<p>
+					Photo:
+					{% if vehicule.photo %}
+						<img src="{{ asset('upload/' ~ vehicule.photo) }}" alt="Photo du véhicule">
+					{% endif %}
+				</p>
+				<p>Marque :
+					{{ vehicule.marque }}</p>
+				<p>Titre :
+					{{ vehicule.titre }}</p>
+				<p>Modèle :
+					{{ vehicule.modele }}</p>
+				<!-- Autres détails du véhicule -->
+			</div>
+
+			<!-- Affichage des dates de début et de fin de réservation -->
+			<div>
+				<h5>Dates de réservation :</h5>
+				<p>Date de début :
+					{{ dateDebut }}</p>
+				<p>Date de fin :
+					{{ dateFin }}</p>
+			</div>
+
+			{% if app.user  %}
+				<form
+					action="{{ path('valider_reservation') }}" method="post">
+					<!-- Champs cachés pour stocker l'ID du véhicule -->
+					<input
+					type="hidden" name="id_vehicule" value="{{ vehicule.id }}">
+					<!-- Champs cachés pour la date de début et la date de fin -->
+					<input type="hidden" name="date_debut" value="{{ dateDebut }}">
+					<input
+					type="hidden" name="date_fin" value="{{ dateFin }}">
+					<!-- Champs cachés pour l'ID de l'utilisateur -->
+					<input type="hidden" name="id_user" value="{{ app.user.id }}">
+
+					<input type="submit" value="Valider la réservation">
+				</form>
+			{% else %}
+				<!-- Boutons pour ouvrir les pop-ups -->
+				<a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+				<a href="{{ path('app_register') }}" class="btn btn-secondary">S'inscrire</a>
+			{% endif %}
+		</div>
+
+		<!-- Ajoutez vos scripts nécessaires ici -->
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+	</body>
+</html>
