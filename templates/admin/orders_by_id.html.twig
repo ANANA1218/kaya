@@ -4,6 +4,16 @@
 	<head>
 		<title>Commande Details</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+		<style>
+			/* Style pour l'image dans le cadre */
+			.img-small {
+				max-width: 100%;
+				height: auto;
+				display: block;
+				margin: auto;
+				max-height: 300px; /* Ajustez la taille maximale si nécessaire */
+			}
+		</style>
 	</head>
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -39,6 +49,15 @@
 				<div class="card-body">
 					<h5 class="card-title">Commande ID:
 						{{ commande.id }}</h5>
+					<p class="card-text">ID de l'utilisateur:
+						{{ commande.user.id }}</p>
+					<p class="card-text">
+						Pseudo de l'utilisateur:
+						{{ commande.user.pseudo }}</p>
+					<p class="card-text">Nom de l'utilisateur:
+						{{ commande.user.nom }}</p>
+					<p class="card-text">Prénom de l'utilisateur:
+						{{ commande.user.prenom }}</p>
 					<p class="card-text">Date de Départ:
 						{{ commande.getDateDepart|date('Y-m-d') }}</p>
 					<p class="card-text">Date de Fin:
@@ -49,7 +68,7 @@
 					<!-- Affichage des détails du véhicule -->
 					<h5 class="card-title">Détails du Véhicule</h5>
 					{% if commande.vehicule.photo %}
-						<td><img src="{{ asset('upload/' ~ commande.vehicule.photo) }}" alt="Photo du véhicule" class="img-small"></td>
+						<img src="{{ asset('upload/' ~ commande.vehicule.photo) }}" alt="Photo du véhicule" class="img-small">
 					{% endif %}
 					<p class="card-text">Marque:
 						{{ commande.vehicule.marque }}</p>
@@ -59,6 +78,7 @@
 						{{ commande.vehicule.description }}</p>
 					<p class="card-text">Prix Journalier:
 						{{ commande.vehicule.getPrixJournalier }}</p>
+
 					<!-- Ajoutez d'autres détails du véhicule ici -->
 
 					<!-- Bouton pour revenir en arrière -->

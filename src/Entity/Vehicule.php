@@ -40,7 +40,9 @@ class Vehicule
     private bool $disponibilite = true; // Par défaut, le véhicule est disponible
 
 
-    #[ORM\Column(name: "date_enregistrement", type: "datetime")]
+   /**
+ * @ORM\Column(name="date_enregistrement", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+ */
     private \DateTimeInterface $dateEnregistrement;
 
 /**

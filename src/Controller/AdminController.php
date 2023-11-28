@@ -258,7 +258,7 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
 
 
 
-     #[Route('/admin/user/create', name: 'create_users')]
+     #[Route('/admin/users/create', name: 'create_users')]
     public function createUser(Request $request, EntityManagerInterface $entityManager): Response
 {
     // Création d'une nouvelle instance de Vehicule
@@ -277,7 +277,13 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
                 'Mme' => 'Femme',
             ],
         ])
-        
+        ->add('selectedRole', ChoiceType::class, [
+            'label' => 'Rôle',
+            'choices' => [
+                'Utilisateur' => 'ROLE_USER',
+                'Administrateur' => 'ROLE_ADMIN',
+            ],
+        ])
         ->add('save', SubmitType::class, ['label' => 'Ajouter'])
         ->getForm();
 
@@ -287,7 +293,8 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
     if ($form->isSubmitted() && $form->isValid()) {
         // Récupération des données du formulaire
         $user = $form->getData();
-        $user->setRoles(['ROLE_USER']);
+        $selectedRole = $form->get('selectedRole')->getData();
+        $user->setRoles([$selectedRole]);
         // Enregistrement du véhicule dans la base de données
         $entityManager->persist($user);
         $entityManager->flush();
@@ -323,7 +330,13 @@ public function updateUser(Request $request, EntityManagerInterface $entityManag
                 'Mme' => 'Femme',
             ],
         ])
-        
+        ->add('selectedRole', ChoiceType::class, [
+            'label' => 'Rôle',
+            'choices' => [
+                'Utilisateur' => 'ROLE_USER',
+                'Administrateur' => 'ROLE_ADMIN',
+            ],
+        ])
         ->add('save', SubmitType::class, ['label' => 'Modifier'])
         ->getForm();
 
@@ -333,9 +346,10 @@ public function updateUser(Request $request, EntityManagerInterface $entityManag
     if ($form->isSubmitted() && $form->isValid()) {
         // Enregistrement automatique des modifications dans la base de données via Doctrine
         $entityManager->flush();
-
+        $selectedRole = $form->get('selectedRole')->getData();
+        $user->setRoles([$selectedRole]);
         $this->addFlash('success', 'Membre mis à jour avec succès !');
-        $user->setRoles(['ROLE_USER']);
+       
         // Redirection vers une autre page après la mise à jour
         return $this->redirectToRoute('users_list');
     }

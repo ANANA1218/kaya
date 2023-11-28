@@ -65,7 +65,7 @@ users_list:
     # ...
 
 create_users:
-    path: '/admin/user/create'
+    path: '/admin/users/create'
     controller: 'App\Controller\AdminController::createUser'
     # ...
 
