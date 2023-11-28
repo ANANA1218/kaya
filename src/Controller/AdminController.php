@@ -74,7 +74,7 @@ class AdminController extends AbstractController
 
 
 
-/**
+     /**
      * @Route("/admin/vehicule/{id}", name="show_vehicule")
      */
     public function showVehiculeByID($id): Response
@@ -108,8 +108,8 @@ class AdminController extends AbstractController
     }
 
 
- /**
-     * @Route("/vehicules/create", name="create_vehicule")
+     /**
+     * @Route("/admin/vehicules/create", name="create_vehicule")
      */
     public function createVehicule(Request $request, EntityManagerInterface $entityManager): Response
 {
@@ -245,7 +245,7 @@ public function deleteVehicule(Request $request, EntityManagerInterface $entityM
 
 
     /**
-     * @Route("/user/{id}", name="show_users")
+     * @Route("admin/user/{id}", name="show_users")
      */
     public function showUser($id): Response
     {
@@ -386,7 +386,7 @@ public function deleteUser(Request $request, EntityManagerInterface $entityManag
     }
   
     /**
-     * @Route("/commande/{id}", name="show_commande")
+     * @Route("/admin/commande/{id}", name="show_commande")
      */
     public function showCommmande($id): Response
     {

@@ -31,7 +31,7 @@ show_vehicule:
 
 
 create_vehicule:
-    path: '/vehicule/create'
+    path: 'admin/vehicules/create'
     controller: 'App\Controller\AdminController::createVehicule'
     # ...
 
@@ -80,14 +80,14 @@ delete_users:
 
 
 show_users:
-    path: '/user/{id}'
+    path: '/admin/user/{id}'
     controller: 'App\Controller\AdminController::showUser'
 
 
 ## commande
 
 show_commande:
-    path: '/commande/{id}'
+    path: '/admin/commande/{id}'
     controller: 'App\Controller\AdminController::showCommmande'
 
 

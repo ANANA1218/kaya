@@ -33,7 +33,10 @@ class RegistrationController extends AbstractController
             );
 
              // Add ROLE_USER to the user's roles
-            $user->setRoles(['ROLE_USER']);
+           // $user->setRoles(['ROLE_USER']);
+           // Set roles based on user selection
+            $selectedRole = $form->get('selectedRole')->getData();
+            $user->setRoles([$selectedRole]);
             $entityManager->persist($user);
             $entityManager->flush();
             // do anything else you need here, like send an email

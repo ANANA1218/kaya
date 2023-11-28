@@ -60,7 +60,16 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prénom',
+            ])
+            ->add('selectedRole', ChoiceType::class, [
+                'label' => 'Rôle',
+                'choices' => [
+                    'Utilisateur' => 'ROLE_USER',
+                    'Administrateur' => 'ROLE_ADMIN',
+               
+                ],
             ]);
+            
     }
 
     public function configureOptions(OptionsResolver $resolver): void

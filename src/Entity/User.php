@@ -42,6 +42,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $prenom = null;
 
 
+    private $selectedRole;
+
+    public function getSelectedRole(): ?string
+    {
+        return $this->selectedRole;
+    }
+
+    public function setSelectedRole(?string $selectedRole): self
+    {
+        $this->selectedRole = $selectedRole;
+
+        return $this;
+    }
 
     
     #[ORM\Column]
